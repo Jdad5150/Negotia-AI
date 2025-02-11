@@ -1,0 +1,8 @@
+{
+  "Intern": 0,
+  "Associate": 1,
+  "Senior Associate": 2,
+  "Manager": 3,
+  "Senior Manager": 4,
+  "Director": 5
+}

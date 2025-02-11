@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NegotiaAI</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <h1>Negotia AI</h1>
+    <h2>Enter your information and let AI do the rest</h2>
+    <form id="prediction-form">
+      <select id="job_list" required="true" name="job_list">
+        <option value="" selected disabled>Select your job title</option>
+      </select>
+      <script src="{{ url_for('static',filename='js/get-jobs.js')}}"></script>
+
+      <select id="state_list" required="true" name="state_list">
+        <option value="" selected disabled>Select your State</option>
+      </select>
+      <script src="{{ url_for('static',filename='js/get-states.js')}}"></script>
+
+      <select id="experience_list" required="true" name="experience_list">
+        <option value="" selected disabled>Select your experience level</option>
+      </select>
+      <script src="{{ url_for('static',filename='js/get-exp-level.js')}}"></script>
+
+      <select id="work_type_list" required="true" name="work_type_list">
+        <option value="" selected disabled>Select your work type</option>
+      </select>
+      <script src="{{ url_for('static',filename='js/get-worktypes.js')}}"></script>
+
+      <button type="submit">Get Prediction</button>
+    </form>
+
+    <div id="prediction-result"></div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
