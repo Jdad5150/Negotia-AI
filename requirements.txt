@@ -14,7 +14,6 @@ cycler==0.12.1
 debugpy==1.8.12
 decorator==5.1.1
 executing==2.2.0
--e git+https://github.com/fluquid/find_job_titles.git@a8a64e81f74bd217f14857b817faf4ebffc579c0#egg=find_job_titles
 Flask==3.1.0
 flatbuffers==25.1.24
 fonttools==4.56.0
@@ -62,6 +61,7 @@ psutil==6.1.1
 ptyprocess==0.7.0
 pure_eval==0.2.3
 pyahocorasick==2.1.0
+pyarrow==19.0.0
 Pygments==2.19.1
 pyparsing==3.2.1
 python-dateutil==2.9.0.post0

@@ -599,11 +599,6 @@ if __name__ == "__main__":
         r"(Metropolitan Area|Area)\s*$", "", regex=True
     )
 
-    # Filter rows where 'state' is empty (NaN or empty string)
-    filtered_df = location[location["State"].isna() | (location["State"] == "")]
-
-    # Get unique values from 'location' for the filtered rows
-    unique_values = filtered_df["City"].unique()
 
     for index, row in location.iterrows():
         if pd.isna(row["State"]) or row["State"] == "Unknown":
@@ -620,3 +615,7 @@ if __name__ == "__main__":
     cleaning_df["category"] = cleaning_df["title_copy"].apply(group_job_titles)
     df["title"] = cleaning_df["category"]
     df = df[df["title"] != "Other"]
+
+    df = df.rename(columns={'title' :'job_title', 'location' :'state','work_type':'work_type','normalized_salary':'salary','encoded_exp':'experience_level'})
+    
+    df.to_parquet("data/cleaned_data.parquet", index=False)
