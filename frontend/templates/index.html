@@ -10,8 +10,17 @@
     />
   </head>
   <body>
-    <h1>Negotia AI</h1>
-    <h2>Enter your information and let AI do the rest</h2>
+    <div class="header">
+      <img
+        src="{{ url_for('static', filename='assets/logo.png') }}"
+        alt="NegotiaAI Logo"
+        class="logo"
+      />
+      <div class="header-right">
+        <p id="header-title">NegotiaAI</p>
+        <p id="header-subtitle">AI Powered Salary Negotiation Tool</p>
+      </div>
+    </div>
     <form id="prediction-form">
       <select id="job_list" required="true" name="job_list">
         <option value="" selected disabled>Select your job title</option>

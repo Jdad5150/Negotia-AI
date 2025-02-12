@@ -3,14 +3,44 @@ body {
   background-color: #f0f0f0;
 }
 
-h1 {
-  color: #333;
-  text-align: center;
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-h2 {
-  color: #333;
-  text-align: center;
+.header-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 248px;
+  height: 248px;
+}
+
+#header-title {
+  font-family: Inter;
+  font-size: 64px;
+  color: white;
+  font-weight: 400;
+  font-style: normal;
+  margin-bottom: 5px;
+  flex-shrink: 1;
+}
+
+#header-subtitle {
+  font-family: Inter;
+  font-weight: 400;
+  font-size: 16px;
+  color: white;
+  flex-shrink: 0;
 }
 
 form {
