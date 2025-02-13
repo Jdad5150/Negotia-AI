@@ -462,21 +462,11 @@ if __name__ == "__main__":
 
     # Clean Experience Level
     df["formatted_experience_level"] = df["formatted_experience_level"].fillna(
-        "not_specified"
+        "Not Specified"
     )
-    label_encoder = LabelEncoder()
-    custom_order = [
-        "not_specified",
-        "Internship",
-        "Entry level",
-        "Associate",
-        "Mid-Senior level",
-        "Director",
-        "Executive",
-    ]
-    label_encoder.fit(custom_order)
-    df["encoded_exp"] = label_encoder.transform(df["formatted_experience_level"])
-    df = df.drop("formatted_experience_level", axis=1)
+
+    # Make the strings look nice
+    df['work_type'] = df['work_type'].str.replace('_', ' ').str.title()
 
     # Remove rows with missing output
     df = df.dropna(subset=["normalized_salary"])
@@ -616,6 +606,6 @@ if __name__ == "__main__":
     df["title"] = cleaning_df["category"]
     df = df[df["title"] != "Other"]
 
-    df = df.rename(columns={'title' :'job_title', 'location' :'state','work_type':'work_type','normalized_salary':'salary','encoded_exp':'experience_level'})
+    df = df.rename(columns={'title' :'job_title', 'location' :'state','work_type':'work_type','normalized_salary':'salary','formatted_experience_level':'experience_level'})
     
     df.to_parquet("data/cleaned_data.parquet", index=False)

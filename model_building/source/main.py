@@ -31,6 +31,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 import tensorflow as tf
@@ -40,44 +41,22 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import EarlyStopping
 
 seed = 42
+data_name = "cleaned_data.parquet"
+data_path = os.path.join("data", data_name)
 
-
-def create_date():
+def load_data():
     """
-    Create a synthetic dataset for job salary prediction.
+    Load the dataset from the specified path.
+
+    Returns:
+    - df: pandas DataFrame containing the data.
     """
-    # Define the job titles
-    job_titles = [
-        "Software Engineer",
-        "Data Scientist",
-        "Project Manager",
-        "Machine Learning Engineer",
-        "UI/UX Designer",
-        "Product Manager",
-        "DevOps Engineer",
-        "System Administrator",
-        "Cloud Architect",
-        "Database Administrator",
-    ]
-
-    # Create the data
-    data = pd.DataFrame(
-        {
-            "title": np.random.choice(job_titles, 1000),
-            "state": np.random.choice(["CA", "NY", "TX", "WA", "FL"], 1000),
-            "salary": np.random.randint(50000, 200000, 1000),
-            "experience": np.random.randint(0, 6, 1000),
-            "work_type": np.random.choice(
-                ["Full-time", "Part-time", "Contract", "Remote"], 1000
-            ),
-        }
-    )
-
-    return data
+    df = pd.read_parquet(data_path)
+    return df
 
 
 def encode_and_save(
-    df, column_name, save_dir="../../shared", file_name="encoding.json"
+    df, column_name, save_dir="../shared", file_name="encoding.json"
 ):
     """
     Encodes the specified column in the DataFrame using LabelEncoder,
@@ -123,69 +102,77 @@ def encode_and_save(
 
 if __name__ == "__main__":
     # Load the data
-    df = create_date()
+    df = load_data()
     print(df.head(5))
-
-    # Clean data
+    print(df.info())
+    
+    # # Clean data
     df = df.dropna()
 
-    # Encode the categorical columns
-    df = encode_and_save(df, "title", file_name="title_encoding.json")
+    # # Encode the categorical columns
+    df = encode_and_save(df, "job_title", file_name="title_encoding.json")
     df = encode_and_save(df, "state", file_name="state_encoding.json")
-    df = encode_and_save(df, "experience", file_name="exp_level_encoding.json")
+    df = encode_and_save(df, "experience_level", file_name="exp_level_encoding.json")
     df = encode_and_save(df, "work_type", file_name="work_type_encoding.json")
 
     # Split the data
     X = df.drop("salary", axis=1)
     y = df["salary"]
 
-    scaler = StandardScaler()
-    X = scaler.fit_transform(X)
+    # Scale the features
+    scaler = StandardScaler().fit(X)
+
+    # Save the scaler for inference
+    joblib.dump(scaler, "../shared/scaler.pkl")
+    print("Scaler saved to: ../shared/scaler.pkl")
+
+    # Transform the features
+    X = scaler.transform(X)
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=seed)
 
-    # Create the model
-    model = Sequential()
-    # Input layer
-    model.add(Dense(64, input_shape=(4,)))
-    model.add(LeakyReLU(alpha=0.1))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.3))
+    # # Create the model
+    # model = Sequential()
+    # # Input layer
+    # model.add(Dense(64, input_shape=(4,)))
+    # model.add(LeakyReLU(alpha=0.1))
+    # model.add(BatchNormalization())
+    # model.add(Dropout(0.3))
 
-    # Hidden layers
-    model.add(Dense(128))
-    model.add(LeakyReLU(alpha=0.1))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.3))
+    # # Hidden layers
+    # model.add(Dense(128))
+    # model.add(LeakyReLU(alpha=0.1))
+    # model.add(BatchNormalization())
+    # model.add(Dropout(0.3))
 
-    model.add(Dense(64))
-    model.add(LeakyReLU(alpha=0.1))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.3))
+    # model.add(Dense(64))
+    # model.add(LeakyReLU(alpha=0.1))
+    # model.add(BatchNormalization())
+    # model.add(Dropout(0.3))
 
-    # Output layer (regression)
-    model.add(Dense(1))
+    # # Output layer (regression)
+    # model.add(Dense(1))
 
-    model.compile(optimizer=Adam(learning_rate=0.001), loss="mean_squared_error")
+    # model.compile(optimizer=Adam(learning_rate=0.001), loss="mean_squared_error")
 
-    # Train the model
-    history = model.fit(
-        X_train,
-        y_train,
-        epochs=100,
-        batch_size=32,
-        validation_data=(X_test, y_test),
-        verbose=0,
-    )
+    # # Train the model
+    # history = model.fit(
+    #     X_train,
+    #     y_train,
+    #     epochs=100,
+    #     batch_size=32,
+    #     validation_data=(X_test, y_test),
+    #     verbose=0,
+    # )
 
-    early_stop = EarlyStopping(
-        monitor="val_loss", patience=5, restore_best_weights=True
-    )
+    # early_stop = EarlyStopping(
+    #     monitor="val_loss", patience=5, restore_best_weights=True
+    # )
 
-    model.summary()
+    # model.summary()
 
-    ## Save the model
-    model.save("../../shared/demo_model.keras")
+    # ## Save the model
+    # model.save("../../shared/demo_model.keras")
 
-    # import tensorflowjs as tfjs
-    # tfjs.converters.save_keras_model(model, '../../shared/demo_model')
+    # # import tensorflowjs as tfjs
+    # # tfjs.converters.save_keras_model(model, '../../shared/demo_model')

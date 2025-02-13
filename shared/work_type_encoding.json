@@ -1,1 +1,1 @@
-{ "Contract": 0, "Full-time": 1, "Part-time": 2, "Remote": 3 }
+{"Contract": 0, "Full Time": 1, "Internship": 2, "Other": 3, "Part Time": 4, "Temporary": 5, "Volunteer": 6}

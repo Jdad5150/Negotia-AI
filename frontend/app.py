@@ -2,9 +2,11 @@ from flask import Flask, render_template, request, jsonify, send_file
 import tensorflow as tf
 from keras.models import load_model # type: ignore
 import numpy as np
-import json
+import joblib
+
 
 model = load_model('./shared/demo_model.keras')
+scaler = joblib.load('./shared/scaler.pkl')
 
 app = Flask(__name__)
 
@@ -51,7 +53,8 @@ def predict():
     try:
         features = request.json['features']
         features = np.array(features).reshape(1, -1)
-        prediction = model.predict(features)
+        scaled_features = scaler.transform(features)
+        prediction = model.predict(scaled_features)
 
         return jsonify({'prediction': prediction.tolist()})
     except Exception as e:
