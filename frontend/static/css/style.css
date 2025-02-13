@@ -1,12 +1,21 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
+  background-color: rgb(0, 0, 0);
+  background-image: url("../assets/bg.png");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .header {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 20%;
 }
 
 .header-right {
@@ -43,25 +52,71 @@ body {
   flex-shrink: 0;
 }
 
-form {
+.body-container {
+  background-color: rgba(255, 255, 255, 0);
+  display: flex;
+  justify-content: space-between;
+  height: 80vh;
+  flex-grow: 1;
+}
+
+.form-container {
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(50.83333206176758px);
+  border-radius: 0 20px 0 0;
+  width: 30%;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
+}
+
+.response-container {
+  background-color: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(62.400001525878906px);
+  border-radius: 20px;
+  border: 2px solid #fff;
+  margin: 40px;
+  width: 70%;
+}
+
+#prediction-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
   margin-top: 20px;
+  height: 100%;
+}
+
+.select-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  width: 60%;
+  height: auto;
 }
 
 select {
-  width: 20%;
-  padding: 10px;
-  margin: 5px;
+  width: 100%; /* Make sure selects stretch fully in their container */
+  height: 40px; /* Set height to make selects uniform */
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box; /* Include padding and border in the element's width/height */
 }
 
 button {
-  padding: 10px;
+  padding: 12px;
   background-color: #4caf50;
   color: white;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 16px; /* Make the button text size consistent */
+  width: 62%; /* Ensure button stretches full width */
+  margin-top: 10px; /* Space between the button and the last select element */
 }
 
 button:hover {
@@ -73,4 +128,31 @@ button:hover {
   font-size: 18px;
   font-weight: bold;
   text-align: center;
+}
+
+/* Styling for headers inside select-container */
+.select-container-h1,
+.select-container-h2 {
+  align-self: flex-start;
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+}
+
+/* Adjust the size and spacing of the H1 and H2 inside select-container */
+.select-container-h1 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #d4c2f8;
+  margin-bottom: 5px; /* Space between H1 and H2 */
+}
+
+.select-container-h2 {
+  font-size: 1rem;
+  color: #666; /* Light grey color */
+  margin-bottom: 10px; /* Space between H2 and select element */
+}
+
+#form-header {
+  font-size: 1rem;
+  color: #b3b3b3;
 }
