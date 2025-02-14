@@ -32,13 +32,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 import joblib
+import pickle
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.preprocessing import LabelEncoder, StandardScaler, OneHotEncoder
 import tensorflow as tf
-from tensorflow.keras.models import Sequential  # type: ignore
-from tensorflow.keras.layers import Dense, LeakyReLU, BatchNormalization, Dropout
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras.models import Model  # type: ignore
+from tensorflow.keras.layers import Input, Embedding, Flatten, Concatenate, Dense, Dropout# type: ignore
+from tensorflow.keras.optimizers import Adam # type: ignore
 
 seed = 42
 data_name = "cleaned_data.parquet"
@@ -100,6 +100,7 @@ def encode_and_save(
     return df
 
 
+
 if __name__ == "__main__":
     # Load the data
     df = load_data()
@@ -109,67 +110,93 @@ if __name__ == "__main__":
     # # Clean data
     df = df.dropna()
 
-    # # Encode the categorical columns
+
+    # Encode the categorical columns
     df = encode_and_save(df, "job_title", file_name="title_encoding.json")
     df = encode_and_save(df, "state", file_name="state_encoding.json")
     df = encode_and_save(df, "experience_level", file_name="exp_level_encoding.json")
     df = encode_and_save(df, "work_type", file_name="work_type_encoding.json")
 
+
     # Split the data
     X = df.drop("salary", axis=1)
     y = df["salary"]
 
-    # Scale the features
-    scaler = StandardScaler().fit(X)
+    # Initialize the scaler
+    scaler = StandardScaler()
+
+    # Fit and transform the features
+    X = scaler.fit_transform(X)
 
     # Save the scaler for inference
     joblib.dump(scaler, "../shared/scaler.pkl")
     print("Scaler saved to: ../shared/scaler.pkl")
 
-    # Transform the features
-    X = scaler.transform(X)
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=seed)
 
-    # # Create the model
-    # model = Sequential()
-    # # Input layer
-    # model.add(Dense(64, input_shape=(4,)))
-    # model.add(LeakyReLU(alpha=0.1))
-    # model.add(BatchNormalization())
-    # model.add(Dropout(0.3))
+    # Hyperparameters
+    n_neurons = 128
+    n_layers = 3  # Number of hidden layers
+    embedding_dim = 10  # Size of embedding vectors
+    n_epochs = 100
+    batch_size = 32
 
-    # # Hidden layers
-    # model.add(Dense(128))
-    # model.add(LeakyReLU(alpha=0.1))
-    # model.add(BatchNormalization())
-    # model.add(Dropout(0.3))
+    # Number of unique categories for embeddings
+    n_job_titles = df["job_title"].nunique() + 1  # Add 1 for unseen values
+    n_states = df["state"].nunique() + 1
 
-    # model.add(Dense(64))
-    # model.add(LeakyReLU(alpha=0.1))
-    # model.add(BatchNormalization())
-    # model.add(Dropout(0.3))
+    # Define model inputs
+    job_title_input = Input(shape=(1,), name="job_title_input")
+    state_input = Input(shape=(1,), name="state_input")
+    numeric_inputs = Input(shape=(X_train.shape[1] - 2,), name="numeric_inputs")  # Exclude categorical features
 
-    # # Output layer (regression)
-    # model.add(Dense(1))
+    # Create embedding layers
+    job_title_embedded = Embedding(input_dim=n_job_titles, output_dim=embedding_dim)(job_title_input)
+    state_embedded = Embedding(input_dim=n_states, output_dim=embedding_dim)(state_input)
 
-    # model.compile(optimizer=Adam(learning_rate=0.001), loss="mean_squared_error")
+    # Flatten embeddings
+    job_title_embedded = Flatten()(job_title_embedded)
+    state_embedded = Flatten()(state_embedded)
 
-    # # Train the model
-    # history = model.fit(
-    #     X_train,
-    #     y_train,
-    #     epochs=100,
-    #     batch_size=32,
-    #     validation_data=(X_test, y_test),
-    #     verbose=0,
-    # )
+    # Concatenate all features
+    x = Concatenate()([job_title_embedded, state_embedded, numeric_inputs])
 
-    # early_stop = EarlyStopping(
-    #     monitor="val_loss", patience=5, restore_best_weights=True
-    # )
+    # Dynamically add hidden layers
+    for i in range(1, n_layers + 1):
+        x = Dense(units=n_neurons, activation="relu")(x)
+        x = Dropout(0.2)(x)
 
-    # model.summary()
+    # Output layer
+    output = Dense(units=1)(x)
+
+    # Create the model
+    model = Model(inputs=[job_title_input, state_input, numeric_inputs], outputs=output)
+
+    # Compile the model
+    model.compile(optimizer=Adam(learning_rate=0.001), loss="mean_squared_error", metrics=["mse"])
+
+    # Print model summary
+    model.summary()
+
+    print("Job Title Shape:", X_train["job_title"].values.shape, "Type:", type(X_train["job_title"].values))
+    print("State Shape:", X_train["state"].values.shape, "Type:", type(X_train["state"].values))
+    print("Numerical Features Shape:", X_train.drop(columns=["job_title", "state"]).values.shape, "Type:", type(X_train.drop(columns=["job_title", "state"]).values))
+    print("Target Shape:", y_train.values.shape, "Type:", type(y_train.values))
+
+
+    # Train the model
+    history = model.fit(
+        [X_train[:, 0], X_train[:,1], X_train[:,2:]],
+        y_train,
+        epochs=n_epochs,
+        batch_size=batch_size,
+        validation_data=(
+            [X_test[:, 0], X_test[:, 1], X_test[:, 2:]],
+            y_test,
+        ),
+        verbose=1,
+    )
 
     # ## Save the model
     # model.save("../../shared/demo_model.keras")
