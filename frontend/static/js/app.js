@@ -3,10 +3,9 @@ document
   .addEventListener("submit", function (e) {
     e.preventDefault(); // Prevent form submission
 
-    const job = document.getElementById("job_list").value;
     const state = document.getElementById("state_list").value;
+    const job = document.getElementById("job_list").value;
     const experience = document.getElementById("experience_list").value;
-    const work_type = document.getElementById("work_type_list").value;
 
     // Send POST request to Flask backend
     fetch("/predict", {
@@ -15,12 +14,7 @@ document
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        features: [
-          parseFloat(job),
-          parseFloat(state),
-          parseFloat(experience),
-          parseFloat(work_type),
-        ], // Send feature data
+        features: [parseFloat(state), parseFloat(job), parseFloat(experience)], // Send feature data
       }),
     })
       .then((response) => response.json())

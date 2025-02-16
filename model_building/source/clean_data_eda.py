@@ -111,4 +111,31 @@ if __name__ == '__main__':
     print('Pairplot Analysis:\nThis pairplot shows the distribution of the features with respect to each other. The diagonal shows the distribution of each feature.')
 
 
-    df.to_parquet("data/cleaned_data.parquet", index=False)    
+    # Augment the data
+    n_augmented = 50
+    augmented_data = []
+
+    for index, row in df.iterrows():
+        title = row['title']
+        state = row['state']
+        experience = row['experience']
+        salary = row['salary']
+
+        for _ in range(n_augmented):
+            random_percentage = np.random.uniform(0.997, 1.003)
+            augmented_salary = salary * random_percentage
+
+            augmented_title = title
+            augmented_state = state
+            augmented_experience = experience
+
+            augmented_data.append({
+                'state': augmented_state,
+                'title': augmented_title,                
+                'experience': augmented_experience,
+                'salary': augmented_salary
+            })
+    augmented_df = pd.DataFrame(augmented_data)      
+    combined_df = pd.concat([df, augmented_df], ignore_index=True)  
+
+    combined_df.to_parquet("data/cleaned_data.parquet", index=False)    
