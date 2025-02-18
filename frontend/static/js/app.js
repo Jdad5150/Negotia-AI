@@ -3,9 +3,22 @@ document
   .addEventListener("submit", function (e) {
     e.preventDefault(); // Prevent form submission
 
-    const state = document.getElementById("state_list").value;
-    const job = document.getElementById("job_list").value;
-    const experience = document.getElementById("experience_list").value;
+    // Get selected values from dropdowns
+    const state = document.getElementById("state_list");
+    const state_id = state.options[state.selectedIndex].value;
+    const state_title = state.options[state.selectedIndex].text;
+
+    const job = document.getElementById("job_list");
+    const job_id = job.options[job.selectedIndex].value;
+    const job_title = job.options[job.selectedIndex].text;
+
+    const experience = document.getElementById("experience_list");
+    const experience_id = experience.options[experience.selectedIndex].value;
+    const experience_title = experience.options[experience.selectedIndex].text;
+
+    const resultElement = document.getElementById("prediction-result");
+    const titleElement = document.getElementById("response-container-h1");
+    const subtitleElement = document.getElementById("response-subtitle");
 
     // Send POST request to Flask backend
     fetch("/predict", {
@@ -14,20 +27,28 @@ document
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        features: [parseFloat(state), parseFloat(job), parseFloat(experience)], // Send feature data
+        features: [
+          parseFloat(state_id),
+          parseFloat(job_id),
+          parseFloat(experience_id),
+        ],
       }),
     })
       .then((response) => response.json())
       .then((data) => {
         // Display prediction result
         if (data.prediction) {
-          document.getElementById(
-            "prediction-result"
-          ).innerText = `Prediction: $${data.prediction}`;
+          const roundedPrediction = Math.round(data.prediction);
+          const upperBound =
+            Math.round((roundedPrediction * 1.1) / 10000) * 10000;
+          const lowerBound =
+            Math.round((roundedPrediction * 0.9) / 10000) * 10000;
+
+          resultElement.innerText = `${experience_title} ${job_title} in ${state_title} should make $${roundedPrediction} per year.\nStart your negotiation with a salary of $${upperBound} and take no less than $${lowerBound}.`;
+          titleElement.style.display = "none";
+          subtitleElement.style.display = "none";
         } else if (data.error) {
-          document.getElementById(
-            "prediction-result"
-          ).innerText = `Error: ${data.error}`;
+          resultElement.innerText = `Error: ${data.error}`;
         }
       })
       .catch((error) => console.error("Error:", error));

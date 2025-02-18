@@ -1,6 +1,34 @@
+"""
+This script preprocesses salary data, performs encoding, augments data, and saves the cleaned dataset.
+
+Key Steps:
+1. Load raw salary data from a CSV file.
+2. Handle missing values and clean salary values.
+3. Encode categorical columns (job title, state, experience level) using Label Encoding.
+4. Save encoding mappings as JSON files for reference.
+5. Generate exploratory visualizations:
+   - Salary distribution histogram
+   - Correlation heatmap
+   - Pairplot of all features
+6. Augment the dataset by applying small random variations to salary values.
+7. Save the processed dataset as a Parquet file for model training.
+
+Outputs:
+- Encoded feature mappings in '../shared/' (e.g., 'title_encoding.json').
+- Visualization images in 'output/' directory.
+- Cleaned and augmented dataset saved as 'data/cleaned_data.parquet'.
+
+Dependencies:
+- pandas
+- numpy
+- seaborn
+- matplotlib
+- scikit-learn
+- json
+"""
+
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
 import numpy as np
 import seaborn as sns
 import os
@@ -76,6 +104,7 @@ if __name__ == '__main__':
     # Drop rows with missing values
     df = df.dropna(subset=input_features + [target])
 
+    # Remove the dollar sign and commas from the target variable and convert it to float
     df[target] = df[target].apply(lambda x: x.replace('$', '').replace(',', '')).astype(float)
 
     # Encode the categorical columns
@@ -83,8 +112,6 @@ if __name__ == '__main__':
     df = encode_and_save(df, "state", file_name="state_encoding.json")
     df = encode_and_save(df, "experience", file_name="experience_encoding.json")
 
-
-    # EDA
 
     # Plot the distribution of the target variable
     plt.figure(figsize=(16, 9))
@@ -115,12 +142,14 @@ if __name__ == '__main__':
     n_augmented = 50
     augmented_data = []
 
+    # Loop through each row of data
     for index, row in df.iterrows():
         title = row['title']
         state = row['state']
         experience = row['experience']
         salary = row['salary']
-
+        
+        # Create n_augmented augmented samples for each row
         for _ in range(n_augmented):
             random_percentage = np.random.uniform(0.997, 1.003)
             augmented_salary = salary * random_percentage
@@ -129,13 +158,17 @@ if __name__ == '__main__':
             augmented_state = state
             augmented_experience = experience
 
+            # Append the augmented data to the list
             augmented_data.append({
                 'state': augmented_state,
                 'title': augmented_title,                
                 'experience': augmented_experience,
                 'salary': augmented_salary
             })
+
+    # Convert to a dataframe and add to the original data
     augmented_df = pd.DataFrame(augmented_data)      
     combined_df = pd.concat([df, augmented_df], ignore_index=True)  
 
+    # Save as parquet file
     combined_df.to_parquet("data/cleaned_data.parquet", index=False)    

@@ -77,6 +77,9 @@ body {
   border: 2px solid #fff;
   margin: 40px;
   width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 #prediction-form {
@@ -98,25 +101,25 @@ body {
 }
 
 select {
-  width: 100%; /* Make sure selects stretch fully in their container */
-  height: 40px; /* Set height to make selects uniform */
+  width: 100%;
+  height: 40px;
   padding: 8px;
   font-size: 16px;
   border-radius: 8px;
   border: 1px solid #ccc;
-  box-sizing: border-box; /* Include padding and border in the element's width/height */
+  box-sizing: border-box;
 }
 
 button {
   padding: 12px;
-  background-color: #4caf50;
+  background-color: #483966;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 12px;
   cursor: pointer;
-  font-size: 16px; /* Make the button text size consistent */
-  width: 62%; /* Ensure button stretches full width */
-  margin-top: 10px; /* Space between the button and the last select element */
+  font-size: 16px;
+  width: 62%;
+  margin-top: 10px;
 }
 
 button:hover {
@@ -124,35 +127,67 @@ button:hover {
 }
 
 #prediction-result {
-  margin-top: 20px;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 3rem;
+  color: #d4c2f8;
+  font-weight: normal;
   text-align: center;
+  margin-inline-start: 15%;
+  margin-inline-end: 15%;
+  text-shadow: 2px 2px 4px #000000;
 }
 
-/* Styling for headers inside select-container */
+#prediction-result:empty {
+  display: none;
+}
+
+#prediction-result:not(:empty) ~ h1,
+#prediction-result:not(:empty) ~ h2 {
+  display: none;
+}
+
 .select-container-h1,
 .select-container-h2 {
   align-self: flex-start;
-  margin: 0; /* Remove default margin */
-  padding: 0; /* Remove default padding */
+  margin: 0;
+  padding: 0;
 }
 
-/* Adjust the size and spacing of the H1 and H2 inside select-container */
 .select-container-h1 {
   font-size: 1.2rem;
   font-weight: bold;
   color: #d4c2f8;
-  margin-bottom: 5px; /* Space between H1 and H2 */
+  margin-bottom: 5px;
+  line-height: 100%;
 }
 
 .select-container-h2 {
   font-size: 1rem;
-  color: #666; /* Light grey color */
-  margin-bottom: 10px; /* Space between H2 and select element */
+  color: #666;
+  margin-bottom: 10px;
 }
 
 #form-header {
-  font-size: 1rem;
-  color: #b3b3b3;
+  font-size: 1.6rem;
+  color: #ffffff;
+}
+
+#response-container-h1 {
+  font-size: 5rem;
+  color: #fff;
+  margin-top: 50px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#response-subtitle {
+  font-size: 2rem;
+  color: #d4c2f8;
+  margin-inline-start: 20%;
+  margin-inline-end: 20%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

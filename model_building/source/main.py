@@ -1,38 +1,7 @@
-"""
-Main script for creating and training a machine learning model using Keras, encoding categorical features,
-and saving the model for inference with TensorFlow.js.
-
-The script performs the following tasks:
-1. Creates a synthetic dataset with job titles, states, salaries, work type, and experience.
-2. Encodes categorical features ('title', 'state', 'work_type') using LabelEncoder and saves the encoding maps as JSON files.
-3. Splits the data into features (X) and target (y), scales the features using StandardScaler.
-4. Builds a neural network model using Keras to predict job salaries based on encoded features.
-5. Trains the model, performs early stopping to avoid overfitting, and saves the trained model.
-
-Dependencies:
-- pandas
-- numpy
-- scikit-learn
-- tensorflow
-- matplotlib
-- seaborn
-
-Functions included:
-- create_date: Generates a synthetic dataset for job salary prediction.
-- encode_and_save: Encodes a specified column in the DataFrame using LabelEncoder and saves the encoding map to a JSON file.
-
-Author: Jesse Little
-Date: 02/06/2025
-"""
-
 import os
-import json
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
-import seaborn as sns
 import joblib
-import pickle
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
@@ -40,6 +9,7 @@ from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 seed = 42
 data_name = "cleaned_data.parquet"
 data_path = os.path.join("data", data_name)
+
 
 def load_data():
     """
@@ -52,13 +22,15 @@ def load_data():
     return df
 
 
-
-
 if __name__ == "__main__":
+    """
+    This script builds a Random Forest model to predict salary based on job title, state, and experience level.
+    """
+
     # Load the data
     df = load_data()
     print(df.info())
-    
+
     # # Clean data
     df = df.dropna()
 
@@ -66,14 +38,12 @@ if __name__ == "__main__":
     X = df.drop("salary", axis=1)
     y = df["salary"]
 
-
-
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=seed)
 
+    # Build and train the model
     model = RandomForestRegressor(random_state=seed)
 
     model.fit(X_train, y_train)
-
 
     # Make predictions
     y_pred = model.predict(X_test)
@@ -97,25 +67,25 @@ if __name__ == "__main__":
 """
     print(f"Model Analysis:\n{model_analysis}")
     print("-----------------------------------------")
-    print("Feature importance is a key aspect of Random Forest models because it explains which features are most impactful.")
+    print(
+        "Feature importance is a key aspect of Random Forest models because it explains which features are most impactful."
+    )
     print("Feature Importances:")
+
     # Get feature importances
     importances = model.feature_importances_
-    
-    features = ['State', 'Title', 'Experience']
-    importance_df = pd.DataFrame({
-        'Feature': features,
-        'Importance': importances
-    })
-    
-    importance_df = importance_df.sort_values(by='Importance', ascending=False)
+
+    features = ["State", "Title", "Experience"]
+    importance_df = pd.DataFrame({"Feature": features, "Importance": importances})
+
+    importance_df = importance_df.sort_values(by="Importance", ascending=False)
     print(importance_df)
 
     plt.figure(figsize=(10, 6))
-    plt.barh(importance_df['Feature'], importance_df['Importance'])
-    plt.xlabel('Importance')
-    plt.title('Feature Importances in Random Forest Model')
-    plt.savefig('output/feature_importances.png', bbox_inches='tight', dpi=300)
+    plt.barh(importance_df["Feature"], importance_df["Importance"])
+    plt.xlabel("Importance")
+    plt.title("Feature Importances in Random Forest Model")
+    plt.savefig("output/feature_importances.png", bbox_inches="tight", dpi=300)
     plt.show()
 
     # Save the model

@@ -24,26 +24,32 @@
     <div class="body-container">
       <div class="form-container">
         <form id="prediction-form">
-          <h1 id="form-header">FORM HEADER</h1>
+          <h1 id="form-header">
+            Please enter the details about the job below.
+          </h1>
           <div class="select-container">
-            <h1 class="select-container-h1">H1</h1>
-            <h2 class="select-container-h2">H2</h2>
+            <h1 class="select-container-h1">Job Title</h1>
+            <h2 class="select-container-h2">
+              Job title for the position you're applying for.
+            </h2>
             <select id="job_list" required="true" name="job_list">
               <option value="" selected disabled>Select your job title</option>
             </select>
             <script src="{{ url_for('static',filename='js/get-jobs.js')}}"></script>
           </div>
           <div class="select-container">
-            <h1 class="select-container-h1">H1</h1>
-            <h2 class="select-container-h2">H2</h2>
+            <h1 class="select-container-h1">Location</h1>
+            <h2 class="select-container-h2">
+              State that the job is located in.
+            </h2>
             <select id="state_list" required="true" name="state_list">
               <option value="" selected disabled>Select your State</option>
             </select>
             <script src="{{ url_for('static',filename='js/get-states.js')}}"></script>
           </div>
           <div class="select-container">
-            <h1 class="select-container-h1">H1</h1>
-            <h2 class="select-container-h2">H2</h2>
+            <h1 class="select-container-h1">Experience</h1>
+            <h2 class="select-container-h2">Experience level that you have.</h2>
             <select id="experience_list" required="true" name="experience_list">
               <option value="" selected disabled>
                 Select your experience level
@@ -51,11 +57,15 @@
             </select>
             <script src="{{ url_for('static',filename='js/get-exp-level.js')}}"></script>
           </div>
-          <button type="submit">Get Prediction</button>
+          <button type="submit">Get Salary</button>
         </form>
       </div>
       <div class="response-container">
-        <p id="response">PREDICTION</p>
+        <h1 id="response-container-h1">Welcome to NegotiaAI</h1>
+        <h2 id="response-subtitle">
+          Use this tool to prepare yourself for salary negotiations. This AI
+          powered application is designed to help you know your worth
+        </h2>
         <div id="prediction-result"></div>
         <script src="{{ url_for('static', filename='js/app.js') }}"></script>
       </div>
