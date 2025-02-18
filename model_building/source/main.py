@@ -1,3 +1,37 @@
+"""
+Salary Prediction Model Using Random Forest
+
+This script builds and evaluates a Random Forest regression model to predict salaries based on job title, state, and experience level. 
+
+Workflow:
+1. Load the preprocessed dataset from a parquet file.
+2. Perform basic data cleaning by dropping missing values.
+3. Split the dataset into training and testing sets.
+4. Train a RandomForestRegressor model on the training data.
+5. Make salary predictions on the test set.
+6. Evaluate the model using Mean Absolute Error (MAE), Mean Squared Error (MSE), and R-squared (R²) score.
+7. Analyze feature importance to determine which factors influence salary the most.
+8. Save the trained model as a `.pkl` file for future use.
+9. Generate and save a feature importance plot.
+
+Outputs:
+- Model evaluation metrics displayed in the console.
+- A bar chart of feature importances saved as 'output/feature_importances.png'.
+- The trained model saved as 'salary_prediction_model.pkl' in the '../shared' directory.
+
+Dependencies:
+- pandas
+- matplotlib
+- scikit-learn
+- joblib
+- parquet (for reading the dataset)
+
+ ```
+
+Author: Jesse Little
+Date: 2/16/2025
+"""
+
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -10,7 +44,6 @@ seed = 42
 data_name = "cleaned_data.parquet"
 data_path = os.path.join("data", data_name)
 
-
 def load_data():
     """
     Load the dataset from the specified path.
@@ -22,15 +55,18 @@ def load_data():
     return df
 
 
+
+
 if __name__ == "__main__":
     """
     This script builds a Random Forest model to predict salary based on job title, state, and experience level.
     """
 
+
     # Load the data
     df = load_data()
     print(df.info())
-
+    
     # # Clean data
     df = df.dropna()
 
@@ -40,10 +76,12 @@ if __name__ == "__main__":
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=seed)
 
+
     # Build and train the model
     model = RandomForestRegressor(random_state=seed)
 
     model.fit(X_train, y_train)
+
 
     # Make predictions
     y_pred = model.predict(X_test)
@@ -67,25 +105,26 @@ if __name__ == "__main__":
 """
     print(f"Model Analysis:\n{model_analysis}")
     print("-----------------------------------------")
-    print(
-        "Feature importance is a key aspect of Random Forest models because it explains which features are most impactful."
-    )
+    print("Feature importance is a key aspect of Random Forest models because it explains which features are most impactful.")
     print("Feature Importances:")
 
     # Get feature importances
     importances = model.feature_importances_
-
-    features = ["State", "Title", "Experience"]
-    importance_df = pd.DataFrame({"Feature": features, "Importance": importances})
-
-    importance_df = importance_df.sort_values(by="Importance", ascending=False)
+    
+    features = ['State', 'Title', 'Experience']
+    importance_df = pd.DataFrame({
+        'Feature': features,
+        'Importance': importances
+    })
+    
+    importance_df = importance_df.sort_values(by='Importance', ascending=False)
     print(importance_df)
 
     plt.figure(figsize=(10, 6))
-    plt.barh(importance_df["Feature"], importance_df["Importance"])
-    plt.xlabel("Importance")
-    plt.title("Feature Importances in Random Forest Model")
-    plt.savefig("output/feature_importances.png", bbox_inches="tight", dpi=300)
+    plt.barh(importance_df['Feature'], importance_df['Importance'])
+    plt.xlabel('Importance')
+    plt.title('Feature Importances in Random Forest Model')
+    plt.savefig('output/feature_importances.png', bbox_inches='tight', dpi=300)
     plt.show()
 
     # Save the model

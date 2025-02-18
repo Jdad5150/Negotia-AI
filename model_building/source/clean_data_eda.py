@@ -168,7 +168,7 @@ if __name__ == '__main__':
 
     # Convert to a dataframe and add to the original data
     augmented_df = pd.DataFrame(augmented_data)      
-    combined_df = pd.concat([df, augmented_df], ignore_index=True)  
+    combined_df = pd.concat([df, augmented_df], ignore_index=True)
 
     # Save as parquet file
-    combined_df.to_parquet("data/cleaned_data.parquet", index=False)    
+    combined_df.to_parquet("data/cleaned_data.parquet", index=False)
