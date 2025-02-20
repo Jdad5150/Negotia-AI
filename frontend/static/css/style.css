@@ -9,13 +9,15 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  padding: 0;
+  margin: 0;
 }
 
 .header {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 20%;
+  height: 15%;
 }
 
 .header-right {
@@ -61,27 +63,54 @@ body {
 }
 
 .form-container {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(50.83333206176758px);
   border-radius: 0 20px 0 0;
   width: 30%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  box-shadow: 0 0 25px 5px white;
+  animation: pulseGlow 10s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.8);
+  }
+  50% {
+    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.8);
+  }
 }
 
 .response-container {
+  position: relative;
   background-color: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(62.400001525878906px);
+  backdrop-filter: blur(62.4px);
   margin: 40px;
   width: 70%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   border-radius: 20px;
-  border: 2px solid;
-  border-image-slice: 1;
-  border-image-source: linear-gradient(
+  padding: 2px;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.response-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  padding: 4px;
+  background: linear-gradient(
     90deg,
     red,
     orange,
@@ -91,7 +120,26 @@ body {
     indigo,
     violet
   );
-  animation: rgb-border 5s linear infinite;
+  background-size: 400% 400%;
+  animation: rgb-border-animation 10s ease-in-out infinite;
+  mask: linear-gradient(white, white) content-box, linear-gradient(white, white);
+  mask-composite: exclude;
+  -webkit-mask: linear-gradient(white, white) content-box,
+    linear-gradient(white, white);
+  -webkit-mask-composite: xor;
+  z-index: -1;
+}
+
+@keyframes rgb-border-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 #prediction-form {
@@ -118,24 +166,32 @@ select {
   padding: 8px;
   font-size: 16px;
   border-radius: 8px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
+  border: 1px solid transparent;
+  outline: none;
+  position: relative;
+  z-index: 1;
+  color-scheme: dark;
 }
 
 button {
   padding: 12px;
-  background-color: #483966;
+  background-color: transparent;
+  font-size: 1.2rem;
   color: white;
-  border: none;
+  border: 2px solid whitesmoke;
+  overflow: hidden;
   border-radius: 12px;
   cursor: pointer;
-  font-size: 16px;
   width: 62%;
   margin-top: 10px;
+  transition: all 0.3s ease-in-out;
 }
 
 button:hover {
-  background-color: #45a049;
+  color: black;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(245, 245, 245, 0.8);
+  transform: scale(1.1);
 }
 
 #prediction-result {
@@ -174,7 +230,7 @@ button:hover {
 
 .select-container-h2 {
   font-size: 1rem;
-  color: #666;
+  color: #000000;
   margin-bottom: 10px;
 }
 
@@ -205,91 +261,4 @@ button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-@keyframes rgb-border {
-  0% {
-    border-image-source: linear-gradient(
-      90deg,
-      red,
-      orange,
-      yellow,
-      green,
-      blue,
-      indigo,
-      violet
-    );
-  }
-  16% {
-    border-image-source: linear-gradient(
-      90deg,
-      orange,
-      yellow,
-      green,
-      blue,
-      indigo,
-      violet,
-      red
-    );
-  }
-  33% {
-    border-image-source: linear-gradient(
-      90deg,
-      yellow,
-      green,
-      blue,
-      indigo,
-      violet,
-      red,
-      orange
-    );
-  }
-  50% {
-    border-image-source: linear-gradient(
-      90deg,
-      green,
-      blue,
-      indigo,
-      violet,
-      red,
-      orange,
-      yellow
-    );
-  }
-  66% {
-    border-image-source: linear-gradient(
-      90deg,
-      blue,
-      indigo,
-      violet,
-      red,
-      orange,
-      yellow,
-      green
-    );
-  }
-  83% {
-    border-image-source: linear-gradient(
-      90deg,
-      indigo,
-      violet,
-      red,
-      orange,
-      yellow,
-      green,
-      blue
-    );
-  }
-  100% {
-    border-image-source: linear-gradient(
-      90deg,
-      violet,
-      red,
-      orange,
-      yellow,
-      green,
-      blue,
-      indigo
-    );
-  }
 }
