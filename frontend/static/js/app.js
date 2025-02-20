@@ -38,13 +38,18 @@ document
       .then((data) => {
         // Display prediction result
         if (data.prediction) {
-          const roundedPrediction = Math.round(data.prediction);
-          const upperBound =
-            Math.round((roundedPrediction * 1.1) / 10000) * 10000;
-          const lowerBound =
-            Math.round((roundedPrediction * 0.9) / 10000) * 10000;
+          const roundedPrediction = Math.round(data.prediction).toLocaleString(
+            "en-US",
+            { style: "currency", currency: "USD" }
+          );
+          const upperBound = (
+            Math.round((Math.round(data.prediction) * 1.1) / 10000) * 10000
+          ).toLocaleString("en-US", { style: "currency", currency: "USD" });
+          const lowerBound = (
+            Math.round((Math.round(data.prediction) * 0.9) / 10000) * 10000
+          ).toLocaleString("en-US", { style: "currency", currency: "USD" });
 
-          resultElement.innerText = `${experience_title} ${job_title} in ${state_title} should make $${roundedPrediction} per year.\nStart your negotiation with a salary of $${upperBound} and take no less than $${lowerBound}.`;
+          resultElement.innerText = `${experience_title} ${job_title} in ${state_title} should make ${roundedPrediction} per year.\n\nStart your negotiation with a salary of ${upperBound} and take no less than ${lowerBound}.`;
           titleElement.style.display = "none";
           subtitleElement.style.display = "none";
         } else if (data.error) {

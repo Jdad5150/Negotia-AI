@@ -73,13 +73,25 @@ body {
 .response-container {
   background-color: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(62.400001525878906px);
-  border-radius: 20px;
-  border: 2px solid #fff;
   margin: 40px;
   width: 70%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  border-radius: 20px;
+  border: 2px solid;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(
+    90deg,
+    red,
+    orange,
+    yellow,
+    green,
+    blue,
+    indigo,
+    violet
+  );
+  animation: rgb-border 5s linear infinite;
 }
 
 #prediction-form {
@@ -169,6 +181,9 @@ button:hover {
 #form-header {
   font-size: 1.6rem;
   color: #ffffff;
+  text-align: left;
+  margin-left: 12%;
+  margin-right: 12%;
 }
 
 #response-container-h1 {
@@ -190,4 +205,91 @@ button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@keyframes rgb-border {
+  0% {
+    border-image-source: linear-gradient(
+      90deg,
+      red,
+      orange,
+      yellow,
+      green,
+      blue,
+      indigo,
+      violet
+    );
+  }
+  16% {
+    border-image-source: linear-gradient(
+      90deg,
+      orange,
+      yellow,
+      green,
+      blue,
+      indigo,
+      violet,
+      red
+    );
+  }
+  33% {
+    border-image-source: linear-gradient(
+      90deg,
+      yellow,
+      green,
+      blue,
+      indigo,
+      violet,
+      red,
+      orange
+    );
+  }
+  50% {
+    border-image-source: linear-gradient(
+      90deg,
+      green,
+      blue,
+      indigo,
+      violet,
+      red,
+      orange,
+      yellow
+    );
+  }
+  66% {
+    border-image-source: linear-gradient(
+      90deg,
+      blue,
+      indigo,
+      violet,
+      red,
+      orange,
+      yellow,
+      green
+    );
+  }
+  83% {
+    border-image-source: linear-gradient(
+      90deg,
+      indigo,
+      violet,
+      red,
+      orange,
+      yellow,
+      green,
+      blue
+    );
+  }
+  100% {
+    border-image-source: linear-gradient(
+      90deg,
+      violet,
+      red,
+      orange,
+      yellow,
+      green,
+      blue,
+      indigo
+    );
+  }
 }
