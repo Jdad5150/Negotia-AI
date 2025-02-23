@@ -2,12 +2,17 @@ document.addEventListener("DOMContentLoaded", function () {
   fetch("/get-exp-level")
     .then((response) => response.json())
     .then((data) => {
-      const job_list = document.getElementById("experience_list");
+      const exp_list = document.getElementById("experience_list");
       Object.entries(data).forEach(([level, id]) => {
         let option = document.createElement("option");
         option.value = id; // Set value as the integer ID
         option.text = level; // Set text as the work type
-        job_list.appendChild(option);
+        exp_list.appendChild(option);
+      });
+
+      exp_list.addEventListener("change", function () {
+        exp_list.style.color = "black";
+        exp_list.style.backgroundColor = "white";
       });
     })
     .catch((error) => console.error("Error:", error));

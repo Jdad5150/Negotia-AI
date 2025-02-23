@@ -9,6 +9,11 @@ document.addEventListener("DOMContentLoaded", function () {
         option.text = job; // Set text as the job title
         job_list.appendChild(option);
       });
+
+      job_list.addEventListener("change", function () {
+        job_list.style.color = "black";
+        job_list.style.backgroundColor = "white";
+      });
     })
     .catch((error) => console.error("Error:", error));
 });
