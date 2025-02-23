@@ -305,3 +305,51 @@ footer {
 footer p {
   margin: 0;
 }
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  color: white;
+  background: conic-gradient(
+      from -45deg at top 20px left 50%,
+      #0000,
+      currentColor 1deg 90deg,
+      #0000 91deg
+    ),
+    conic-gradient(
+      from 45deg at right 20px top 50%,
+      #0000,
+      currentColor 1deg 90deg,
+      #0000 91deg
+    ),
+    conic-gradient(
+      from 135deg at bottom 20px left 50%,
+      #0000,
+      currentColor 1deg 90deg,
+      #0000 91deg
+    ),
+    conic-gradient(
+      from -135deg at left 20px top 50%,
+      #0000,
+      currentColor 1deg 90deg,
+      #0000 91deg
+    );
+  animation: l4 2s infinite cubic-bezier(0.3, 1, 0, 1);
+}
+
+@keyframes l4 {
+  50% {
+    width: 60px;
+    height: 60px;
+    transform: translate(-10px, -10px) rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
