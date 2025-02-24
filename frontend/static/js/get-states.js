@@ -5,8 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const state_list = document.getElementById("state_list");
       Object.entries(data).forEach(([state, id]) => {
         let option = document.createElement("option");
-        option.value = id; // Set value as the integer ID
-        option.text = state; // Set text as the state
+        option.value = id;
+        option.text = state;
         state_list.appendChild(option);
       });
 

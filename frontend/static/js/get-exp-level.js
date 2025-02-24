@@ -5,8 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const exp_list = document.getElementById("experience_list");
       Object.entries(data).forEach(([level, id]) => {
         let option = document.createElement("option");
-        option.value = id; // Set value as the integer ID
-        option.text = level; // Set text as the work type
+        option.value = id;
+        option.text = level;
         exp_list.appendChild(option);
       });
 

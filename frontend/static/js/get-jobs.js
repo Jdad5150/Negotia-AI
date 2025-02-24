@@ -5,8 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const job_list = document.getElementById("job_list");
       Object.entries(data).forEach(([job, id]) => {
         let option = document.createElement("option");
-        option.value = id; // Set value as the integer ID
-        option.text = job; // Set text as the job title
+        option.value = id;
+        option.text = job;
         job_list.appendChild(option);
       });
 
