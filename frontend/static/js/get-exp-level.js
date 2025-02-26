@@ -16,4 +16,15 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     })
     .catch((error) => console.error("Error:", error));
+
+  var infoIcon = document.getElementById("info-icon");
+  var popOver = document.getElementById("popover");
+
+  infoIcon.addEventListener("click", function () {
+    if (popOver.style.display === "flex") {
+      popOver.style.display = "none";
+    } else {
+      popOver.style.display = "flex";
+    }
+  });
 });

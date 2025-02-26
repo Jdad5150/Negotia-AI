@@ -59,7 +59,7 @@ body {
 }
 
 #header-title {
-  font-size: 64px;
+  font-size: 4vw;
   color: white;
   font-weight: 400;
   font-style: normal;
@@ -68,7 +68,7 @@ body {
 
 #header-subtitle {
   font-weight: 200;
-  font-size: 16px;
+  font-size: 1.2vw;
   color: white;
 }
 
@@ -181,7 +181,7 @@ body {
 select {
   padding: 12px;
   background-color: transparent;
-  font-size: 1rem;
+  font-size: 1vw;
   color: white;
   border: 1px solid whitesmoke;
   overflow: hidden;
@@ -189,6 +189,26 @@ select {
   cursor: pointer;
   width: 100%;
   transition: all 0.3s ease-in-out;
+}
+
+select:focus {
+  color: black;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(245, 245, 245, 0.8);
+  transform: scale(1.1);
+}
+
+select::-webkit-scrollbar {
+  width: 20px;
+}
+
+select::-webkit-scrollbar-thumb {
+  background-color: #0606069e;
+  border-radius: 12px;
+}
+
+select::-webkit-scrollbar-track {
+  background-color: transparent;
 }
 
 select:hover {
@@ -201,7 +221,7 @@ select:hover {
 button {
   padding: 12px;
   background-color: transparent;
-  font-size: 1.2rem;
+  font-size: 1.2vw;
   color: white;
   border: 2px solid whitesmoke;
   overflow: hidden;
@@ -220,7 +240,7 @@ button:hover {
 }
 
 #prediction-result {
-  font-size: 3rem;
+  font-size: 3vw;
   color: white;
   font-weight: 400;
   text-align: center;
@@ -246,7 +266,7 @@ button:hover {
 }
 
 .select-container-h1 {
-  font-size: 1.2rem;
+  font-size: 1.2vw;
   font-weight: bold;
   color: #d4c2f8;
   margin-bottom: 5px;
@@ -254,15 +274,38 @@ button:hover {
 }
 
 .select-container-h2 {
-  font-size: 1rem;
+  font-size: 1vw;
   color: white;
   margin-bottom: 12px;
   font-weight: 200;
   font-style: italic;
 }
 
+.info-icon {
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.popover {
+  font-size: 0.75vw;
+  font-weight: 100;
+  display: none;
+  background-color: black;
+  position: fixed;
+  color: white;
+  padding: 8px;
+  border-radius: 5px;
+  transform: translateX(50%);
+  white-space: normal;
+  width: 250px;
+  text-align: start;
+  word-wrap: break-word;
+  word-break: break-word;
+  z-index: 10;
+}
+
 #form-header {
-  font-size: 1.6rem;
+  font-size: 1.6vw;
   color: #ffffff;
   text-align: center;
   margin-left: 12%;
@@ -270,7 +313,7 @@ button:hover {
 }
 
 #response-container-h1 {
-  font-size: 5rem;
+  font-size: 5vw;
   color: #fff;
   margin-top: 50px;
   text-align: center;
@@ -280,7 +323,7 @@ button:hover {
 }
 
 #response-subtitle {
-  font-size: 2rem;
+  font-size: 2vw;
   color: #d4c2f8;
   margin-inline-start: 20%;
   margin-inline-end: 20%;
@@ -297,7 +340,7 @@ footer {
   background-color: transparent;
   text-align: center;
   padding: 10px;
-  font-size: 12px;
+  font-size: 0.75vw;
   color: #ffffff;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -351,5 +394,163 @@ footer p {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+/* General styles for smaller screens */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .header-right {
+    max-width: 100%;
+  }
+
+  .logo {
+    width: 80px;
+  }
+
+  #header-title {
+    font-size: 6vw;
+  }
+
+  #header-subtitle {
+    font-size: 3vw;
+  }
+
+  .body-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .form-container {
+    width: 90%;
+    margin-top: 25px;
+    margin-left: 5%;
+    margin-right: 5%;
+    border-radius: 20px;
+  }
+
+  .response-container {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 20px;
+  }
+
+  #prediction-form {
+    margin-top: 10px;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 25px;
+  }
+
+  .select-container {
+    width: 100%;
+    margin-top: 25px;
+    margin-bottom: 25px;
+  }
+
+  select {
+    font-size: 4vw;
+  }
+
+  button {
+    font-size: 4vw;
+    width: 80%;
+  }
+
+  #prediction-result {
+    font-size: 4vw;
+  }
+
+  .select-container-h1 {
+    font-size: 4vw;
+  }
+
+  .select-container-h2 {
+    font-size: 3vw;
+  }
+
+  .popover {
+    font-size: 3vw;
+    width: 60%;
+  }
+
+  #form-header {
+    font-size: 4vw;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+
+  #response-container-h1 {
+    font-size: 8vw;
+  }
+
+  #response-subtitle {
+    font-size: 5vw;
+    margin-inline-start: 10%;
+    margin-inline-end: 10%;
+  }
+
+  footer {
+    font-size: 2vw;
+  }
+}
+
+/* Additional styles for very small screens */
+@media (max-width: 480px) {
+  .logo {
+    width: 60px;
+  }
+
+  #header-title {
+    font-size: 8vw;
+  }
+
+  #header-subtitle {
+    font-size: 4vw;
+  }
+
+  select {
+    font-size: 5vw;
+  }
+
+  button {
+    font-size: 5vw;
+  }
+
+  #prediction-result {
+    font-size: 8vw;
+  }
+
+  .select-container-h1 {
+    font-size: 5vw;
+  }
+
+  .select-container-h2 {
+    font-size: 4vw;
+  }
+
+  .popover {
+    font-size: 4vw;
+  }
+
+  #form-header {
+    font-size: 5vw;
+  }
+
+  #response-container-h1 {
+    font-size: 10vw;
+  }
+
+  #response-subtitle {
+    font-size: 6vw;
+  }
+
+  footer {
+    font-size: 3vw;
   }
 }

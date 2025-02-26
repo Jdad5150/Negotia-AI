@@ -52,7 +52,16 @@
             <script src="{{ url_for('static',filename='js/get-states.js')}}"></script>
           </div>
           <div class="select-container">
-            <h1 class="select-container-h1">Experience</h1>
+            <h1 class="select-container-h1">
+              Experience <span class="info-icon" id="info-icon">ICON</span>
+              <div class="popover" id="popover">
+                Entry Level: 0-2 years of experience
+                <br />
+                Mid Level: 3-5 years of experience
+                <br />
+                Senior Level: 6+ years of experience
+              </div>
+            </h1>
             <h2 class="select-container-h2">Experience level that you have.</h2>
             <select id="experience_list" required="true" name="experience_list">
               <option value="" selected disabled>
