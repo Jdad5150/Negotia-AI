@@ -107,7 +107,7 @@ body {
 .response-container {
   position: relative;
   background-color: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(62.4px);
+  backdrop-filter: blur(65px);
   margin: 40px;
   width: 70%;
   display: flex;
@@ -281,23 +281,26 @@ button:hover {
   font-style: italic;
 }
 
-.info-icon {
+#info-icon {
   cursor: pointer;
-  margin-left: 8px;
+  margin-left: 16px;
 }
 
 .popover {
-  font-size: 0.75vw;
+  font-size: 0.85vw;
   font-weight: 100;
   display: none;
-  background-color: black;
+  background-color: rgba(0, 0, 0);
+  border-color: white;
+  border-style: solid;
+  border-width: 1px;
   position: fixed;
   color: white;
-  padding: 8px;
-  border-radius: 5px;
+  padding: 12px;
+  border-radius: 8px;
   transform: translateX(50%);
   white-space: normal;
-  width: 250px;
+  width: 275px;
   text-align: start;
   word-wrap: break-word;
   word-break: break-word;
@@ -346,6 +349,7 @@ footer {
 }
 
 footer p {
+  margin-top: 10px;
   margin: 0;
 }
 
@@ -437,7 +441,9 @@ footer p {
     width: 90%;
     margin-left: 5%;
     margin-right: 5%;
-    padding: 20px;
+    margin-bottom: 50px;
+    padding: 50px;
+    min-height: 50vh;
   }
 
   #prediction-form {
@@ -486,21 +492,21 @@ footer p {
   }
 
   #response-container-h1 {
-    font-size: 8vw;
+    font-size: 5vw;
+    margin-top: 0;
   }
 
   #response-subtitle {
-    font-size: 5vw;
+    font-size: 3vw;
     margin-inline-start: 10%;
     margin-inline-end: 10%;
   }
 
   footer {
-    font-size: 2vw;
+    font-size: 1.5vw;
   }
 }
 
-/* Additional styles for very small screens */
 @media (max-width: 480px) {
   .logo {
     width: 60px;
