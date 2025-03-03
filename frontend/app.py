@@ -127,7 +127,7 @@ def predict():
         app.logger.info(f"Request received for /predict: {features}")
 
 
-        # Prepare the features for the model and convert to a DataFrame
+        # Prepare the features for the model and convert to a DataFrame        
         input_features = {
             'state': features[0],
             'title': features[1],
